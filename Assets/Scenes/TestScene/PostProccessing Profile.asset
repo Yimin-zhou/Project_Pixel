@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8686450174178529735
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Pixelate
+  m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
+  active: 1
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: PostProccessing Profile
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 4439736499965248174}
+--- !u!114 &4439736499965248174
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Pixelate
+  m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
+  active: 1
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
+--- !u!114 &5607123425492693696
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Pixelate
+  m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
+  active: 1
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
+--- !u!114 &5947237202688596039
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Pixelate
+  m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
+  active: 1
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
+--- !u!114 &7230916969020399248
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Pixelate
+  m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
+  active: 1
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
+--- !u!114 &7410365072974376986
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Pixelate
+  m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
+  active: 1
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
