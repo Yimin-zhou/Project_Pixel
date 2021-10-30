@@ -13,12 +13,52 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 1
     m_Value: 5
     min: 1
     max: 124
+--- !u!114 &-2212568476370021262
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 0.908298, y: 0.5364432, z: 1, w: 0}
+  midtones:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  highlights:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0}
+  shadowsStart:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  shadowsEnd:
+    m_OverrideState: 0
+    m_Value: 0.3
+    min: 0
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+    min: 0
+  highlightsEnd:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,7 +72,28 @@ MonoBehaviour:
   m_Name: PostProccessing Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 2170559790171725476}
+  - {fileID: 772912650985410160}
+  - {fileID: -2212568476370021262}
+  - {fileID: 7244368219872487425}
+--- !u!114 &772912650985410160
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45dadaf5e7735d143affa9ee6d4dd21e, type: 3}
+  m_Name: PixelateVolume
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  pixelatePower:
+    m_OverrideState: 1
+    m_Value: 5
+    min: 1
+    max: 124
 --- !u!114 &2170559790171725476
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -46,6 +107,7 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 0
@@ -65,6 +127,7 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 1
@@ -84,6 +147,7 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 1
@@ -103,6 +167,7 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 1
@@ -122,12 +187,65 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 1
     m_Value: 5
     min: 1
     max: 124
+--- !u!114 &7244368219872487425
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.9
+    min: 0
+  intensity:
+    m_OverrideState: 1
+    m_Value: 2
+    min: 0
+  scatter:
+    m_OverrideState: 0
+    m_Value: 0.7
+    min: 0
+    max: 1
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+    min: 0
+  tint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 1
+  highQualityFiltering:
+    m_OverrideState: 0
+    m_Value: 0
+  skipIterations:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 16
+  dirtTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  dirtIntensity:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
 --- !u!114 &7410365072974376986
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -141,6 +259,7 @@ MonoBehaviour:
   m_Name: Pixelate
   m_EditorClassIdentifier: Assembly-CSharp:UnityEngine.Rendering.Universal:Pixelate
   active: 1
+  <displayName>k__BackingField: 
   m_AdvancedMode: 0
   pixelatePower:
     m_OverrideState: 1

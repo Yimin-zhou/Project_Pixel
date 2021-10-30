@@ -9,7 +9,7 @@ public class PixelateFeature : ScriptableRendererFeature
     {
         private RenderTargetIdentifier source;
         private RenderTargetHandle tempTexture;
-        private Pixelate pixelateProperties;
+        private PixelateVolume pixelateProperties;
         private FilterMode filterMode;
         private RenderObjects.FilterSettings filteringSettings;
 
@@ -31,7 +31,7 @@ public class PixelateFeature : ScriptableRendererFeature
         {
             //找到PixelateVolume
             var stack = VolumeManager.instance.stack;
-            pixelateProperties = stack.GetComponent<Pixelate>();
+            pixelateProperties = stack.GetComponent<PixelateVolume>();
             if (pixelateProperties == null || !pixelateProperties.IsActive()) { return; }
             
             CommandBuffer cmd = CommandBufferPool.Get("PixelatedFeature");
