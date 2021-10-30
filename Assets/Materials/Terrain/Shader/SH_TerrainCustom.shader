@@ -8,12 +8,22 @@
         [HideInInspector] _Splat2("Layer 2 (B)", 2D) = "grey" {}
         [HideInInspector] _Splat1("Layer 1 (G)", 2D) = "grey" {}
         [HideInInspector] _Splat0("Layer 0 (R)", 2D) = "grey" {}
+        
+        [Header(Color tint)]
+        _Splat0Tint("Splat0 tint color", color) = (1,1,1,1)
+        _Splat1Tint("Splat1 tint color", color) = (1,1,1,1)
+        _Splat2Tint("Splat2 tint color", color) = (1,1,1,1)
+        _Splat3Tint("Splat3 tint color", color) = (1,1,1,1)
+        _VerticalTint("Vertical Tex tint color", color) = (1,1,1,1)
+        
         [Header(Maps)]
         _VerticalTex("Vertical Tex", 2D) = "white" {}
         _VerticalTexScale("Vertical Tex Scale",float) = 1
         _VerticalTexStrength("Vertical Tex Strength",range(0,0.9)) = 0.5
+        
         [Header(Shadow)]
-        _ShadowStrength("Shadow Strength",float) = 1
+        _ShadowRange("Shadow Range",range(0,1)) = 0.5
+        _ShadowColor("Shadow Color",color) = (1,1,1,1)
     }
     
     SubShader
@@ -71,7 +81,15 @@
             TEXTURE2D(_VerticalTex);    SAMPLER(sampler_VerticalTex);
             half _VerticalTexScale;
             half _VerticalTexStrength;
-            half _ShadowStrength;
+            half _ShadowRange;
+            half4 _ShadowColor;
+
+            //colors
+            half4 _Splat0Tint;
+            half4 _Splat1Tint;
+            half4 _Splat2Tint;
+            half4 _Splat3Tint;
+            half4 _VerticalTint;
             
             Varyings vert (Attributes input)
             {
@@ -116,10 +134,10 @@
                 diffAlbedo[3] = SAMPLE_TEXTURE2D(_Splat3, sampler_Splat0, input.uvSplat23.zw);
 
                 half4 mixedDiffuse = 0.0f;
-                mixedDiffuse += diffAlbedo[0] * half4(splatControl.rrr, 1.0f);
-                mixedDiffuse += diffAlbedo[1] * half4(splatControl.ggg, 1.0f);
-                mixedDiffuse += diffAlbedo[2] * half4(splatControl.bbb, 1.0f);
-                mixedDiffuse += diffAlbedo[3] * half4(splatControl.aaa, 1.0f);
+                mixedDiffuse += diffAlbedo[0] * _Splat0Tint * half4(splatControl.rrr, 1.0f);
+                mixedDiffuse += diffAlbedo[1] * _Splat1Tint * half4(splatControl.ggg, 1.0f);
+                mixedDiffuse += diffAlbedo[2] * _Splat2Tint * half4(splatControl.bbb, 1.0f);
+                mixedDiffuse += diffAlbedo[3] * _Splat3Tint * half4(splatControl.aaa, 1.0f);
                 return mixedDiffuse;
             }
 
@@ -131,14 +149,14 @@
 
                 // Triplanar mapping
                 float2 tx = input.positionOS.yz * _VerticalTexScale;
-                //float2 ty = input.positionOS.zx * _VerticalTexScale;
+                float2 ty = input.positionOS.zx * _VerticalTexScale;
                 float2 tz = input.positionOS.xy * _VerticalTexScale;
 
                 // Base color
-                half4 cx = SAMPLE_TEXTURE2D(_VerticalTex,sampler_VerticalTex,tx) * bf.x;
-                // half4 cy = SAMPLE_TEXTURE2D(_VerticalTex,sampler_VerticalTex,ty) * bf.y;
+                half4 cx = SAMPLE_TEXTURE2D(_VerticalTex,sampler_VerticalTex,tz) * bf.x;
+                half4 cy = SAMPLE_TEXTURE2D(_VerticalTex,sampler_VerticalTex,tz) * bf.y;
                 half4 cz = SAMPLE_TEXTURE2D(_VerticalTex,sampler_VerticalTex,tz) * bf.z;
-                half4 triplanarColor = cx + cz;
+                half4 triplanarColor = (cx + cz + cy) * _VerticalTint;
                 return triplanarColor;
             }
             
@@ -148,18 +166,20 @@
                 float2 splatUV = (input.uvMainAndLM.xy * (_Control_TexelSize.zw - 1.0f) + 0.5f) * _Control_TexelSize.xy;
                 half4 splatControl = SAMPLE_TEXTURE2D(_Control, sampler_Control, splatUV);
                 splatControl = SplitMap(splatControl);
+                float3 N = normalize(input.normalWS);
+                float3 L = normalize(mainLight.direction);
+                half ndv = saturate(dot(N,half3(0,1,0)));
 
                 half4 mixedDiffuse = MixColors(splatControl,input);
                 half4 triplanarColor = TriplanarColor(input);
 
+                half3 lerpedColor = lerp(triplanarColor.rgb,mixedDiffuse.rgb,step(_VerticalTexStrength,ndv));
+
                 //light
-                float3 N = normalize(input.normalWS);
-                float3 L = normalize(mainLight.direction);
-                half3 lambert = mainLight.color * (dot(N, L) * 0.5 + 0.5);
-                
-                half ndv = saturate(dot(N,half3(0,1,0)));
-                half shadow = step(0.6,mainLight.shadowAttenuation) + _ShadowStrength;
-                half3 finalColor = lerp(triplanarColor.rgb,mixedDiffuse.rgb,step(_VerticalTexStrength,ndv)) * lambert * shadow;
+                half shadow = step(0.9,mainLight.shadowAttenuation) * 0.5 + 0.5;
+                half halfLambert = (dot(N, L) * 0.5 + 0.5) * shadow;
+                half3 diffuse = halfLambert > _ShadowRange ? lerpedColor : _ShadowColor * lerpedColor;
+                half3 finalColor =  diffuse;
                 float4 col = float4(finalColor.rgb,1);
                
                 return col; 

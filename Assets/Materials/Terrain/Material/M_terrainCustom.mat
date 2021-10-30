@@ -84,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _VerticalTex:
-        m_Texture: {fileID: 2800000, guid: 6bcc65b7c6e3a0b448d7801bfc56842f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5be528b9f2cae1f4a84cfd3690276fdb, type: 3}
         m_Scale: {x: 10, y: 10}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -98,19 +98,25 @@ Material:
     - _Metallic3: 0
     - _NumLayersCount: 1
     - _ShadowFeather: 91.78
-    - _ShadowStrength: 0.66
+    - _ShadowRange: 0.5
+    - _ShadowStrength: -1.24
     - _ShadowThreshold: 1.51
     - _Smoothness0: 0.5
     - _Smoothness1: 0.5
     - _Smoothness2: 0.5
     - _Smoothness3: 0.5
-    - _VerticalTexScale: 0.31
-    - _VerticalTexStrength: 0.859
+    - _VerticalTexScale: 0.22
+    - _VerticalTexStrength: 0.9
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorA: {r: 0.3584906, g: 0.17079033, b: 0.21949291, a: 1}
     - _BaseColorB: {r: 0, g: 0, b: 1, a: 1}
     - _BaseColorC: {r: 0, g: 1, b: 0, a: 1}
     - _BaseColorD: {r: 1, g: 1, b: 0.5, a: 1}
-    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    - _Splat0Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Splat1Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Splat2Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Splat3Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _VerticalTint: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
