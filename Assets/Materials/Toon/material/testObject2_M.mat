@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_testObject2
+  m_Name: testObject2_M
   m_Shader: {fileID: 4800000, guid: c74068351fa0ce945aeaa447ae4cf2b7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -27,6 +27,6 @@ Material:
     m_Floats:
     - _ShadowRange: 0.86
     m_Colors:
-    - _BaseTint: {r: 0.5709272, g: 0.6784314, b: 0.06666666, a: 1}
+    - _BaseTint: {r: 0.034843344, g: 0.8207547, b: 0.6142603, a: 1}
     - _ShadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   m_BuildTextureStacks: []
