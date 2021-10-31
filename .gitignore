@@ -46,3 +46,8 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+/.idea
+/.idea/.idea.Project_Pixel/.idea/.gitignore
+/.idea/.idea.Project_Pixel/.idea/encodings.xml
+/.idea/.idea.Project_Pixel/.idea/indexLayout.xml
+/.idea/.idea.Project_Pixel/.idea/vcs.xml
