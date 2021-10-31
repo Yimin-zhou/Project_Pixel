@@ -25,8 +25,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ShadowRange: 0.6
+    - _ShadowRange: 0.62
     m_Colors:
-    - _BaseTint: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
-    - _ShadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    - _BaseTint: {r: 0.5377358, g: 0.35892913, b: 0.21560162, a: 1}
+    - _ShadowColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
   m_BuildTextureStacks: []

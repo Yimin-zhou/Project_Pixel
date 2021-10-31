@@ -27,6 +27,6 @@ Material:
     m_Floats:
     - _ShadowRange: 0.6
     m_Colors:
-    - _BaseTint: {r: 0.06132078, g: 0.67575574, b: 1, a: 1}
+    - _BaseTint: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   m_BuildTextureStacks: []
