@@ -4,7 +4,7 @@ using UnityEngine;
 using FrameWork.Main;
 using FrameWork.Helper;
 
-public class TimerTest : MonoBehaviour
+public class TimerExample : MonoBehaviour
 {
     public TimerIdentifer timerID;
 
