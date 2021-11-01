@@ -173,7 +173,7 @@
                 half4 mixedDiffuse = MixColors(splatControl,input);
                 half4 triplanarColor = TriplanarColor(input);
 
-                half3 lerpedColor = lerp(triplanarColor.rgb,mixedDiffuse.rgb,step(_VerticalTexStrength,ndv));
+                half3 lerpedColor = lerp(triplanarColor.rgb,mixedDiffuse.rgb,step(_VerticalTexStrength,ndv)) * mainLight.color;
 
                 //light
                 half shadow = step(0.9,mainLight.shadowAttenuation) * 0.5 + 0.5;

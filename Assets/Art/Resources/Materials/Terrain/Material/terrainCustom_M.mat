@@ -113,7 +113,7 @@ Material:
     - _BaseColorB: {r: 0, g: 0, b: 1, a: 1}
     - _BaseColorC: {r: 0, g: 1, b: 0, a: 1}
     - _BaseColorD: {r: 1, g: 1, b: 0.5, a: 1}
-    - _ShadowColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+    - _ShadowColor: {r: 0.6567283, g: 0.7553272, b: 0.8867924, a: 1}
     - _Splat0Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Splat1Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Splat2Tint: {r: 1, g: 1, b: 1, a: 1}

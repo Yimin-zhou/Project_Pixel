@@ -83,11 +83,11 @@
                 float3 N = normalize(input.normalWS);
                 float3 L = normalize(mainLight.direction);
 
-                half3 baseColor = SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex,input.uv) * _BaseTint.rgb;
+                half3 baseColor = SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex,input.uv) * _BaseTint.rgb  * mainLight.color;
                 half shadow = step(0.9,mainLight.shadowAttenuation) * 0.5 + 0.5;
                 half halfLambert = (dot(N, L) * 0.5 + 0.5) * shadow;
                 half3 diffuse = halfLambert > _ShadowRange ? baseColor.rgb : _ShadowColor.rgb * baseColor.rgb;
-                float4 col = float4(diffuse.rgb,1);
+                float4 col = float4(diffuse.rgb ,1);
                
                 return col;
             }
