@@ -36,8 +36,11 @@ namespace FrameWork.Main
         /// 添加一个Timer，在不需要时请调用TimerManager.RemoveTimer来释放
         /// </summary>
         /// <param name="totalTime">timer的总时间</param>
-        /// <param name="delayTime"></param>
-        /// <param name="loopTime"></param>
+        /// <param name="delayTime">timer开启前的delay</param>
+        /// <param name="loopTime">循环次数，-1为无限循环</param>
+        /// <param name="timeStart">开启timer时callback</param>
+        /// <param name="timeChange">每一帧callback</param>
+        /// <param name="timeEnd">timer结束时callback</param>
         /// <returns></returns>
         public TimerIdentifer AddTimer(float totalTime, float totalDelay, int loopTime, TimerStartCallBack timeStart, TimeChangeCallBack timeChange, TimerEndCallBack timeEnd)
         {
