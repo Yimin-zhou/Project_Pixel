@@ -7,7 +7,7 @@ namespace FrameWork.Main
 {
     public delegate void Signal_Test_Add(int a ,int b);
 
-    public delegate void Signal_Test_Sub(int a,int b);
+    public delegate int Signal_Test_Sub(int a,int b);
 
     public delegate void Signal_Test_Not(bool a);
 
