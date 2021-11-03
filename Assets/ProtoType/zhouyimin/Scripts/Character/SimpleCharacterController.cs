@@ -8,12 +8,14 @@ public class SimpleCharacterController : MonoBehaviour
     public float movingSpeed = 15f;
     public float turnSmoothTime = 0.1f;
     public Transform characterCam;
+    public Animator anim;
     private float _turnSmoothVelocity;
     private CharacterController _characterController;
     
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -29,11 +31,16 @@ public class SimpleCharacterController : MonoBehaviour
     {
         if (movingDirection.magnitude >= 0.1f)
         {
+            anim.SetBool("isRunning",true);
             float targetAngle = Mathf.Atan2(movingDirection.x, movingDirection.z) * Mathf.Rad2Deg + characterCam.eulerAngles.y;
             float finalAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity,turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, finalAngle, 0f);
             Vector3 finalDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward.normalized;
             _characterController.Move(finalDirection * movingSpeed * Time.deltaTime);
+        }
+        else
+        {
+            anim.SetBool("isRunning",false);
         }
     }
 

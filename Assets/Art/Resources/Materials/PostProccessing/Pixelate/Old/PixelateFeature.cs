@@ -12,6 +12,7 @@ public class PixelateFeature : ScriptableRendererFeature
         private PixelateVolume pixelateProperties;
         private FilterMode filterMode;
         private RenderObjects.FilterSettings filteringSettings;
+        private RenderTexture rt;
 
         public PixelateRenderPass(FilterMode filterMode,RenderObjects.FilterSettings filteringSettings)
         {
@@ -38,7 +39,7 @@ public class PixelateFeature : ScriptableRendererFeature
             RenderTextureDescriptor cameraTextureDesc = renderingData.cameraData.cameraTargetDescriptor;
             int pixelateWidth = cameraTextureDesc.width / pixelateProperties.pixelatePower.value;
             int pixelateHeight = cameraTextureDesc.height / pixelateProperties.pixelatePower.value;
-            cmd.GetTemporaryRT(tempTexture.id,pixelateWidth,pixelateHeight,0,filterMode);
+            cmd.GetTemporaryRT(tempTexture.id,pixelateWidth,pixelateHeight,24,FilterMode.Point,RenderTextureFormat.ARGB32,RenderTextureReadWrite.Default,1);
             cmd.Blit(source,tempTexture.Identifier());
             cmd.Blit(tempTexture.Identifier(),source);
             
