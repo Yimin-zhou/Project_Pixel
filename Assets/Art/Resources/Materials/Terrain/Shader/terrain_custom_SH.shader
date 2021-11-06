@@ -24,6 +24,7 @@
         [Header(Shadow)]
         _ShadowRange("Shadow Range",range(0,1)) = 0.5
         _ShadowColor("Shadow Color",color) = (1,1,1,1)
+        _Ramp("Ramp", 2D) = "white" {}
     }
     
     SubShader
@@ -83,6 +84,7 @@
             half _VerticalTexStrength;
             half _ShadowRange;
             half4 _ShadowColor;
+            TEXTURE2D(_Ramp);       SAMPLER(sampler_Ramp);
 
             //colors
             half4 _Splat0Tint;
@@ -178,8 +180,11 @@
                 //light
                 half shadow = step(0.9,mainLight.shadowAttenuation) * 0.5 + 0.5;
                 half halfLambert = (dot(N, L) * 0.5 + 0.5) * shadow;
-                half3 diffuse = halfLambert > _ShadowRange ? lerpedColor : _ShadowColor * lerpedColor;
-                half3 finalColor =  diffuse;
+                half  ramp = SAMPLE_TEXTURE2D(_Ramp,sampler_Ramp,float2(halfLambert,halfLambert));
+                //half3 diffuse = ramp > _ShadowRange ? lerpedColor : _ShadowColor * lerpedColor;
+                half3 shadowColor = _ShadowColor * ramp;
+                half lightPart = step(0.7,ramp);
+                half3 finalColor =  lerp(shadowColor * lerpedColor,ramp * lerpedColor,lightPart);
                 float4 col = float4(finalColor.rgb,1);
                
                 return col; 
