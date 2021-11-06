@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace FrameWork.Helper
 {
@@ -8,7 +9,7 @@ namespace FrameWork.Helper
     /// 纯C#单例，要求T只要有一个空参数构造函数
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Singleton<T> where T : new()
+    public class Singleton<T> where T : class,IDisposable,new()
     {
         private static T _inst;
 
@@ -23,6 +24,12 @@ namespace FrameWork.Helper
                 _inst = new T();
                 return _inst;
             }
+        }
+
+        public void Destroy()
+        {
+            _inst.Dispose();
+            _inst = null;
         }
     }
 }

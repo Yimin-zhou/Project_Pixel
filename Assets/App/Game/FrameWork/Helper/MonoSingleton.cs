@@ -35,5 +35,11 @@ namespace FrameWork.Helper
                 return _inst;
             }
         }
+
+        public void Destroy()
+        {
+            UnityEngine.Object.Destroy(_inst);
+            _inst = null;
+        }
     }
 }

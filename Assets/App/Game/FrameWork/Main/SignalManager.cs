@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace FrameWork.Main
 {
-    public class SignalManager
+    public class SignalManager:IDisposable
     {
         private Dictionary<Type, Delegate> _handlers = new Dictionary<Type, Delegate>();
 
@@ -18,6 +18,11 @@ namespace FrameWork.Main
                 Delegate savedHandler;
                 if (_handlers.TryGetValue(type, out savedHandler))
                 {
+                    foreach(var h in savedHandler.GetInvocationList())
+                    {
+                        if (h == newHandler)
+                            return;
+                    }
                     _handlers[type]= Delegate.Combine(savedHandler, newHandler);
                 }
                 else
@@ -36,10 +41,19 @@ namespace FrameWork.Main
                 Delegate savedHandler;
                 if (_handlers.TryGetValue(type, out savedHandler))
                 {
-                    _handlers[type] = Delegate.Remove(savedHandler, deleteHandler);
-                    if (_handlers[type] == null)
+                    bool canDelete = false;
+                    foreach (var h in savedHandler.GetInvocationList())
                     {
-                        _handlers.Remove(type);
+                        if (h == deleteHandler)
+                            canDelete = true;
+                    }
+                    if (canDelete)
+                    {
+                        _handlers[type] = Delegate.Remove(savedHandler, deleteHandler);
+                        if (_handlers[type] == null)
+                        {
+                            _handlers.Remove(type);
+                        }
                     }
                 }
             }
@@ -63,6 +77,12 @@ namespace FrameWork.Main
                 }
             }
             return null;
+        }
+
+        public void Dispose()
+        {
+            _handlers.Clear();
+            _handlers = null;
         }
     }
 }
