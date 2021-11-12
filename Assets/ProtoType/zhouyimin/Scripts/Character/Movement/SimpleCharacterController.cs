@@ -93,11 +93,11 @@ public class SimpleCharacterController: MonoBehaviour {
            _moveDirection = GetMoveDirection(_moveDirection);
        }
 
-       AdjustJumoGravity();
+       AdjustJumpGravity();
        Move();
     }
 
-    private void AdjustJumoGravity()
+    private void AdjustJumpGravity()
     {
         _rb.velocity = new Vector3((_moveDirection * GetMoveSpeed() * _inputAmount).x,_rb.velocity.y,(_moveDirection * GetMoveSpeed() * _inputAmount).z);
         // if not grounded or on slope , increase down force
@@ -114,18 +114,20 @@ public class SimpleCharacterController: MonoBehaviour {
     private void Move()
     {
         // actual movement of the rigidbody + extra down force
-        _slopeAngle = GetSlopeAngle();
-        if (_slopeAngle < slopeLimit && IsGrounded())
+        Vector3 hitNormal = Vector3.up;
+        _slopeAngle = GetSlopeAngle(out hitNormal);
+        if (_slopeAngle != 0f && _slopeAngle < slopeLimit && IsGrounded())
         {
-            _rb.velocity = Quaternion.AngleAxis( _slopeAngle, Vector3.forward) * _rb.velocity;
+            Vector3 direction = Vector3.ProjectOnPlane(_rb.velocity,hitNormal);
+            _rb.velocity = new Vector3(direction.x,_rb.velocity.y,direction.z);
             UnityEngine.Debug.DrawRay(_rb.position,_rb.velocity,Color.blue);
         }
-        else if (_slopeAngle != 0f)
+        else if (_slopeAngle >= slopeLimit)
         {
             _rb.velocity += new Vector3(_rb.velocity.x,slopeSpeedMultiplier * Physics.gravity.y * Time.fixedDeltaTime,_rb.velocity.z);
         }
 
-        Debug.Log("velo " + _rb.velocity + "_slopeAngle " + _slopeAngle);
+        //Debug.Log("velo " + _rb.velocity + "_slopeAngle " + _slopeAngle);
     }
    
    private Vector3 GetMoveDirection(Vector3 moveDirection)
@@ -181,7 +183,7 @@ public class SimpleCharacterController: MonoBehaviour {
        return false;
    }
    
-   private float SlopeRaycasts(float offsetx, float offsetz, float raycastLength)
+   private Vector3 SlopeRaycasts(float offsetx, float offsetz, float raycastLength)
    {
        RaycastHit hit;
        Vector3 raycastOriginPos = transform.TransformPoint(offsetx, rayStartPointOffsetY, offsetz);
@@ -190,18 +192,29 @@ public class SimpleCharacterController: MonoBehaviour {
        if (Physics.Raycast(raycastOriginPos, Vector3.down, out hit, raycastLength))
        {
            _slopeEffector = Mathf.Clamp01(Vector3.Dot(-transform.forward, hit.normal));
-           float angle = Vector3.Angle(hit.normal, Vector3.up);
-           return angle;
+           return hit.normal;
        }
-       return 0f;
+       return Vector3.up;
    }
 
-   private float GetSlopeAngle()
+   private float GetSlopeAngle(out Vector3 hitNormal)
     {
-        float angle_front = 0f;
-        float angle_back = 0f;
-        angle_front += SlopeRaycasts(0, rayCastWidth, raycastLength);
-        angle_back += SlopeRaycasts(0, -rayCastWidth, raycastLength);
-        return Mathf.Max(angle_back,angle_front);
+        float angleFront = 0f;
+        float angleBack = 0f;
+        Vector3 normalFront = SlopeRaycasts(0, rayCastWidth, raycastLength);
+        angleFront += Vector3.Angle(normalFront, Vector3.up);
+        Vector3 normalBack = SlopeRaycasts(0, -rayCastWidth, raycastLength);
+        angleBack += Vector3.Angle(normalBack, Vector3.up);
+
+        if (angleFront > angleBack)
+        {
+            hitNormal = normalFront;
+            return angleFront;
+        }
+        else
+        {
+            hitNormal = normalBack;
+            return angleBack;
+        }
     }
 }

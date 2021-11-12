@@ -9,9 +9,10 @@ public class AdditionalIK : MonoBehaviour
     public String tageName;
     public float lockSpeed = 1f;
     public float resetPosY = 1.5f;
+    public float defaultLookLength = 10f;
 
-    public Vector3 handLeftOriginOffset;
-    public Vector3 handRightOriginOffset;
+    public Transform handLeftOrigin;
+    public Transform handRightOrigin;
     public float shoulderRaycastLength = 3f;
     public LayerMask playerLayer;
     
@@ -37,7 +38,7 @@ public class AdditionalIK : MonoBehaviour
     {
         if (!_useLookAt)
         {
-            Vector3 defaultTarget = transform.position + transform.forward.normalized * 10f;
+            Vector3 defaultTarget = transform.position + transform.forward.normalized * defaultLookLength;
             _lookAtIK.solver.IKPosition = Vector3.Lerp(_lookAtIK.solver.IKPosition,new Vector3(defaultTarget.x,defaultTarget.y + resetPosY,defaultTarget.z),Time.deltaTime * lockSpeed);
         }
         else
@@ -66,9 +67,9 @@ public class AdditionalIK : MonoBehaviour
     private void setHandIK()
     {
         RaycastHit leftHit;
-        if (Physics.Raycast(handLeftOriginOffset + transform.position, transform.forward, out leftHit, shoulderRaycastLength))
+        if (Physics.Raycast(handLeftOrigin.position, transform.forward, out leftHit, shoulderRaycastLength))
         {
-            UnityEngine.Debug.DrawRay(handLeftOriginOffset + transform.position, transform.forward * shoulderRaycastLength, Color.green);
+            UnityEngine.Debug.DrawRay(handLeftOrigin.position, transform.forward * shoulderRaycastLength, Color.green);
 
             if (leftHit.transform.gameObject.layer != playerLayer)
             {
@@ -88,13 +89,13 @@ public class AdditionalIK : MonoBehaviour
         {
             _fullIK.solver.leftHandEffector.rotationWeight = 0f;
             _fullIK.solver.leftHandEffector.positionWeight = 0f;
-            UnityEngine.Debug.DrawRay(handLeftOriginOffset + transform.position, transform.forward * shoulderRaycastLength, Color.red);
+            UnityEngine.Debug.DrawRay(handLeftOrigin.position, transform.forward * shoulderRaycastLength, Color.red);
         }
         
         RaycastHit rightHit;
-        if (Physics.Raycast(handRightOriginOffset + transform.position, transform.forward, out rightHit, shoulderRaycastLength))
+        if (Physics.Raycast(handRightOrigin.position, transform.forward, out rightHit, shoulderRaycastLength))
         {
-            UnityEngine.Debug.DrawRay(handRightOriginOffset + transform.position, transform.forward * shoulderRaycastLength, Color.green);
+            UnityEngine.Debug.DrawRay(handRightOrigin.position, transform.forward * shoulderRaycastLength, Color.green);
 
             if (rightHit.transform.gameObject.layer != playerLayer)
             {
@@ -114,7 +115,7 @@ public class AdditionalIK : MonoBehaviour
             _fullIK.solver.rightHandEffector.rotationWeight = 0f;
             _fullIK.solver.rightHandEffector.positionWeight = 0f;
 
-            UnityEngine.Debug.DrawRay(handRightOriginOffset + transform.position, transform.forward * shoulderRaycastLength, Color.red);
+            UnityEngine.Debug.DrawRay(handRightOrigin.position, transform.forward * shoulderRaycastLength, Color.red);
         }
     }
 }
