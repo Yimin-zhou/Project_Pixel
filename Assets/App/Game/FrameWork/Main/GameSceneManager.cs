@@ -4,107 +4,100 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using FrameWork.Helper;
 using System;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace FrameWork.Main
 {
-    public class GameSceneManager:IDisposable
+    public class GameSceneManager : IDisposable
     {
-        public AsyncOperation loadOp;
-        public AsyncOperation unloadOp;
+        public AsyncOperationHandle<SceneInstance> loadOp;
+        public AsyncOperationHandle<SceneInstance> unloadOp;
+
+        private Dictionary<string, SceneInstance> _loadedSceneDic = new Dictionary<string, SceneInstance>();
 
         public void Dispose()
         {
-            loadOp = null;
-            unloadOp = null;
+            _loadedSceneDic.Clear();
+            _loadedSceneDic = null;
         }
 
-        /// <summary>
-        /// 如果你要访问AsyncOperation中的属性就用AsyncOperation来引用该函数的返回值
-        /// </summary>
-        /// <param name="sceneName"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public void LoadSceneAsync(string sceneName, LoadSceneMode mode)
+        //不开放使用AssetReference为参数的原因是不好获取场景名字，其中有两个字段asset/editorAsset在editor模式下和player模式下不被定义
+        public void LoadSceneAsync(string sceneName, LoadSceneMode mode, Action<AsyncOperationHandle<SceneInstance>> onFinish = null)
         {
-            int len = SceneManager.sceneCountInBuildSettings;
-            bool hasScene = false;
-            for (int i = 0; i < len; i++)
-            {
-                string path = SceneUtility.GetScenePathByBuildIndex(i);
-                string name = System.IO.Path.GetFileNameWithoutExtension(path);
-                if (name == sceneName)
-                {
-                    hasScene = true;
-                    break;
-                }
-            }
-            if (hasScene)
-            {
-                MonoSingleton<AsyncManager>.Inst.RunCoroutine(LoadSceneTask(sceneName, mode));
-            }
+            MonoSingleton<AsyncManager>.Inst.RunCoroutine(LoadSceneTask(sceneName, mode, onFinish));
         }
 
-        public void UnloadSceneAsync(string sceneName)
+        public void UnloadSceneAsync(string sceneName, Action<AsyncOperationHandle<SceneInstance>> onFinish = null)
         {
-
-            int len = SceneManager.sceneCount;
-            bool hasScene = false;
-            for (int i = 0; i < len; i++)
+            if (!_loadedSceneDic.ContainsKey(sceneName))
             {
-                Scene scene = SceneManager.GetSceneAt(i);
-                if (scene.name == sceneName)
-                {
-                    hasScene = true;
-                    break;
-                }
+                Debug.LogError("scene doesnt exist!sceneName:" + sceneName);
+                return;
             }
-            if (hasScene)
+            if (SceneManager.sceneCount == 1)
             {
-                MonoSingleton<AsyncManager>.Inst.RunCoroutine(UnloadSceneTask(sceneName));
+                Debug.LogError("there is only one scene,cant unload!");
+                return;
             }
+            MonoSingleton<AsyncManager>.Inst.RunCoroutine(UnloadSceneTask(sceneName, onFinish));
         }
 
         public void UnloadScenesExcept(string[] excepts)
         {
-            int len = SceneManager.sceneCount;
-            for (int i = 0; i < len; i++)
+            foreach (var item in _loadedSceneDic)
             {
-                Scene scene = SceneManager.GetSceneAt(i);
+                SceneInstance scene = item.Value;
                 bool isUnload = true;
                 foreach (var except in excepts)
                 {
-                    if (except == scene.name)
+                    if (except == scene.Scene.name)
                     {
                         isUnload = false;
                     }
                 }
                 if (isUnload)
                 {
-                    UnloadSceneAsync(scene.name);
+                    UnloadSceneTask(scene.Scene.name);
                 }
             }
         }
 
-        private IEnumerator LoadSceneTask(string sceneName, LoadSceneMode mode)
+        private IEnumerator LoadSceneTask(string sceneName, LoadSceneMode mode, Action<AsyncOperationHandle<SceneInstance>> onFinish = null)
         {
-            loadOp = SceneManager.LoadSceneAsync(sceneName, mode);
-            yield return loadOp;
-            if (loadOp.isDone)
+            if (mode == LoadSceneMode.Single)
             {
-                Singleton<SignalManager>.Inst.Rasie<Signal_Load_Scene>(sceneName, mode);
-                loadOp = null;
+                Singleton<AssetManager>.Inst.ReleaseAllSceneAsset();
+            }
+            loadOp = Addressables.LoadSceneAsync(sceneName, mode);
+            if (onFinish != null)
+                loadOp.Completed += onFinish;
+            yield return loadOp;
+            if (loadOp.IsDone && loadOp.Status == AsyncOperationStatus.Succeeded)
+            {
+                var sceneIns = loadOp.Result;
+                if (_loadedSceneDic.ContainsKey(sceneName))
+                    _loadedSceneDic[sceneName] = sceneIns;
+                else
+                    _loadedSceneDic.Add(sceneName, sceneIns);
+                Singleton<SignalManager>.Inst.Rasie<Signal_Unload_Scene>(sceneName);
+            }
+            else
+            {
+                Debug.LogError("Load Scene Failed!,sceneName:" + sceneName);
             }
         }
 
-        private IEnumerator UnloadSceneTask(string sceneName)
+        private IEnumerator UnloadSceneTask(string sceneName, Action<AsyncOperationHandle<SceneInstance>> onFinish = null)
         {
-            unloadOp = SceneManager.UnloadSceneAsync(sceneName);
+            Singleton<AssetManager>.Inst.ReleaseAssetsByIdentifier(sceneName);
+            unloadOp = Addressables.UnloadSceneAsync(_loadedSceneDic[sceneName]);
+            if (onFinish != null)
+                unloadOp.Completed += onFinish;
             yield return unloadOp;
-            if (unloadOp.isDone)
-            {
-                Singleton<SignalManager>.Inst.Rasie<Signal_Unload_Scene>(sceneName);
-                unloadOp = null;
-            }
+            _loadedSceneDic.Remove(sceneName);
+            Singleton<SignalManager>.Inst.Rasie<Signal_Unload_Scene>(sceneName);
         }
     }
 }
