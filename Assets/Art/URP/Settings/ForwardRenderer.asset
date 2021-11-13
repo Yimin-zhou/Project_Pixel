@@ -9,18 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af524757918a55248bf30f737d06f778, type: 3}
+  m_Script: {fileID: 0}
   m_Name: NewPixelateFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
-  passEvent: 550
-  filterMode: 0
-  filterSettings:
-    RenderQueueType: 0
-    LayerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    PassNames: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,7 +25,7 @@ MonoBehaviour:
   m_Name: ForwardRenderer
   m_EditorClassIdentifier: 
   m_RendererFeatures:
-  - {fileID: -8532126083675049388}
+  - {fileID: 0}
   m_RendererFeatureMap: 5432b43388cc9789
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

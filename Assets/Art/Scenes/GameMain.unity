@@ -243,11 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   managerRoot: {fileID: 682949322}
   MainCamera: {fileID: 0}
-  scene:
-    m_AssetGUID: 46fb1fbd13a702c499cd4ebc703eeecb
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  defaultScene: TestScene2
 --- !u!1 &1226907964
 GameObject:
   m_ObjectHideFlags: 0
