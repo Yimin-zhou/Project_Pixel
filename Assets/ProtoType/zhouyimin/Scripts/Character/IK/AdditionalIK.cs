@@ -6,11 +6,13 @@ using RootMotion.FinalIK;
 
 public class AdditionalIK : MonoBehaviour
 {
+    [Header("Point of interest")]
     public String tageName;
     public float lockSpeed = 1f;
     public float resetPosY = 1.5f;
     public float defaultLookLength = 10f;
 
+    [Header("Arm IK")]
     public Transform handLeftOrigin;
     public Transform handRightOrigin;
     public float shoulderRaycastLength = 3f;

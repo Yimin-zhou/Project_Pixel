@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class SimpleCharacterController: MonoBehaviour {
     
+    [Header("Raycast")]
     public float rayStartPointOffsetY = 0f;
     public float raycastLength = 3f;
     public float rayCastWidth = 2.5f;
+
+    [Header("Slope")] 
+    public float lowSlopeSpeedMultiplier = 1.5f;
     public float slopeLimit = 60f;
-    public float slopeSpeedMultiplier = 1f;
+    public float sharpSlopeSpeedMultiplier = 1f;
+    
+    [Header("Movement")]
     public float moveSpeed = 6f;
+    public float turnSmoothTime = 0.1f;
+    public Transform characterCam;
+    
+    [Header("Jump")]
     public float jumpGravityMultiplier = 6f;
     public float fallGravityMultiplier = 10f;
     public float jumpPower = 5f;
     public int maxJumps = 2;
-    public float turnSmoothTime = 0.1f;
-    public Transform characterCam;
-
+    
     private Rigidbody _rb;
     private Animator _anim;
     private Vector3 _moveDirection = Vector3.zero;
@@ -99,7 +107,6 @@ public class SimpleCharacterController: MonoBehaviour {
 
     private void AdjustJumpGravity()
     {
-        _rb.velocity = new Vector3((_moveDirection * GetMoveSpeed() * _inputAmount).x,_rb.velocity.y,(_moveDirection * GetMoveSpeed() * _inputAmount).z);
         // if not grounded or on slope , increase down force
         if(!IsGrounded() && _rb.velocity.y > 0f)
         {
@@ -113,21 +120,22 @@ public class SimpleCharacterController: MonoBehaviour {
 
     private void Move()
     {
+        _rb.velocity = new Vector3((_moveDirection * GetMoveSpeed() * _inputAmount).x,_rb.velocity.y,(_moveDirection * GetMoveSpeed() * _inputAmount).z);
         // actual movement of the rigidbody + extra down force
         Vector3 hitNormal = Vector3.up;
         _slopeAngle = GetSlopeAngle(out hitNormal);
         if (_slopeAngle != 0f && _slopeAngle < slopeLimit && IsGrounded())
         {
             Vector3 direction = Vector3.ProjectOnPlane(_rb.velocity,hitNormal);
-            _rb.velocity = new Vector3(direction.x,_rb.velocity.y,direction.z);
+            _rb.velocity = new Vector3(direction.x,_rb.velocity.y,direction.z) * lowSlopeSpeedMultiplier;
             UnityEngine.Debug.DrawRay(_rb.position,_rb.velocity,Color.blue);
+            Debug.Log("velo " + _rb.velocity + "slop yes! " + _slopeAngle);
         }
         else if (_slopeAngle >= slopeLimit)
         {
-            _rb.velocity += new Vector3(_rb.velocity.x,slopeSpeedMultiplier * Physics.gravity.y * Time.fixedDeltaTime,_rb.velocity.z);
+            _rb.velocity += new Vector3(_rb.velocity.x,sharpSlopeSpeedMultiplier * Physics.gravity.y * Time.fixedDeltaTime,_rb.velocity.z);
+            Debug.Log("velo " + _rb.velocity + "_slopeAngle no" + _slopeAngle);
         }
-
-        //Debug.Log("velo " + _rb.velocity + "_slopeAngle " + _slopeAngle);
     }
    
    private Vector3 GetMoveDirection(Vector3 moveDirection)
